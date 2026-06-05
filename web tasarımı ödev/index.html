@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otomotik - Araba Parçaları Ansiklopedisi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        body.dark .container {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+        }
+
+        body.dark .subtitle {
+            color: #94a3b8;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        body.dark .toolbar {
+            border-bottom-color: #334155;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-dark {
+            background: #333;
+            color: white;
+        }
+
+        body.dark .btn-dark {
+            background: #fbbf24;
+            color: #333;
+        }
+
+        .search-area {
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        body.dark .search-input {
+            background: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        .form-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        body.dark .form-card {
+            background: #0f172a;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        body.dark .form-group input,
+        body.dark .form-group textarea,
+        body.dark .form-group select {
+            background: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        body.dark .category-btn {
+            color: white;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        body.dark .post-card {
+            background: #334155;
+        }
+
+        .post-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        body.dark .post-title {
+            color: #fbbf24;
+        }
+
+        .post-category {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .post-body {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        body.dark .post-body {
+            color: #cbd5e1;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .card-actions button {
+            padding: 5px 15px;
+            font-size: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            color: white;
+            z-index: 2000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        body.dark .stat-card {
+            background: #0f172a;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            .toolbar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Otomotik</h1>
+            <p class="subtitle">Araba Parçaları Ansiklopedisi | Ekle, Düzenle, Sil, Öğren</p>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn btn-dark" id="darkModeBtn">🌙 Karanlık Mod</button>
+            <button class="btn btn-success" id="refreshBtn">🔄 Yenile</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card"><strong>📊 Toplam Parça</strong><br><span id="totalCount">0</span></div>
+            <div class="stat-card"><strong>🔍 Gösterilen</strong><br><span id="shownCount">0</span></div>
+        </div>
+
+        <div class="search-area">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Parça ara...">
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="tümü">📋 Tümü</button>
+            <button class="category-btn" data-category="Motor">🏎️ Motor</button>
+            <button class="category-btn" data-category="Yakıt">⛽ Yakıt Sistemi</button>
+            <button class="category-btn" data-category="Turbo">🔄 Turbo</button>
+            <button class="category-btn" data-category="Elektrik">⚡ Elektrik</button>
+            <button class="category-btn" data-category="Şanzıman">⚙️ Şanzıman</button>
+            <button class="category-btn" data-category="Egzoz">💨 Egzoz</button>
+            <button class="category-btn" data-category="Fren">🛑 Fren Sistemi</button>
+        </div>
+
+        <div class="form-card">
+            <h3 id="formTitle">➕ Yeni Parça Ekle</h3>
+            <div class="form-group">
+                <label>Parça Adı *</label>
+                <input type="text" id="titleInput" placeholder="Örn: Karbüratör, Turboşarj, ABS...">
+            </div>
+            <div class="form-group">
+                <label>Kategori *</label>
+                <select id="categorySelect">
+                    <option value="Motor">Motor</option>
+                    <option value="Yakıt">Yakıt Sistemi</option>
+                    <option value="Turbo">Turbo</option>
+                    <option value="Elektrik">Elektrik</option>
+                    <option value="Şanzıman">Şanzıman</option>
+                    <option value="Egzoz">Egzoz</option>
+                    <option value="Fren">Fren Sistemi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Açıklama / Görevi *</label>
+                <textarea id="bodyInput" rows="4" placeholder="Parçanın ne işe yaradığını açıklayın..."></textarea>
+            </div>
+            <button class="btn btn-primary" id="saveBtn">💾 Kaydet</button>
+            <button class="btn btn-danger" id="cancelBtn" style="display:none;">❌ İptal</button>
+        </div>
+
+        <div id="postsContainer" class="posts-grid">
+            <div class="loading"><div class="spinner"></div><br>Yükleniyor...</div>
+        </div>
+    </div>
+
+    <script>
+        // SADECE ARABA PARÇALARI - Başlangıç verileri
+        let tumVeriler = [
+            { id: 1, title: "Karbüratör", body: "Karbüratör, içten yanmalı motorlarda havayla yakıtın karıştırıldığı cihazdır. Yakıtın buharlaşmasını ve hava ile homojen karışımını sağlar. 1990'lı yıllardan sonra yerini elektronik enjeksiyon sistemlerine bırakmıştır.", category: "Yakıt" },
+            { id: 2, title: "Turboşarj", body: "Turboşarj, egzoz gazlarının enerjisini kullanarak motora daha fazla hava basan bir cihazdır. Böylece motor daha fazla yakıt yakabilir ve güç artar. Dizel motorlarda neredeyse standarttır.", category: "Turbo" },
+            { id: 3, title: "Enjeksiyon Sistemi", body: "Yakıt enjeksiyonu, yakıtı doğrudan silindirlere veya emme manifolduna püskürtür. Elektronik kontrol sayesinde yakıt tasarrufu, düşük emisyon ve daha iyi performans sağlar.", category: "Yakıt" },
+            { id: 4, title: "Marş Motoru", body: "Marş motoru, aracın çalıştırılmasını sağlayan elektrik motorudur. Aküden aldığı elektrik enerjisini mekanik enerjiye çevirir ve krank milini döndürür.", category: "Elektrik" },
+            { id: 5, title: "Alternatör", body: "Alternatör, motor çalışırken aküyü şarj eden ve aracın elektrik ihtiyacını karşılayan cihazdır. Mekanik enerjiyi elektrik enerjisine çevirir.", category: "Elektrik" },
+            { id: 6, title: "Şanzıman", body: "Şanzıman, motor gücünü tekerleklere ileten aktarma organıdır. Vites değiştirerek tork ve hız ayarı yapar. Manuel, otomatik, DSG ve CVTI tipleri vardır.", category: "Şanzıman" },
+            { id: 7, title: "Debriyaj", body: "Debriyaj, motor gücünün şanzımana iletilmesini kesip birleştiren sistemdir. Vites değiştirirken ve duruşlarda motorun stop etmesini önler.", category: "Şanzıman" },
+            { id: 8, title: "Fren Diski", body: "Fren diski, fren balatalarının sürtünerek tekerleği durdurmasını sağlayan metal parçadır. Isıyı dağıtarak fren performansını artırır.", category: "Fren" },
+            { id: 9, title: "ABS", body: "Kilitlenmeyen Fren Sistemi (ABS), ani frenlemelerde tekerleklerin kilitlenmesini önler. Böylece sürücü direksiyon hakimiyetini kaybetmez.", category: "Fren" },
+            { id: 10, title: "Eksoz Susturucusu", body: "Egzoz susturucusu, motorun yanma odasından çıkan egzoz gazlarının sesini azaltır. İçindeki kanallar sayesinde ses dalgalarını sönümler.", category: "Egzoz" },
+            { id: 11, title: "Katalitik Konvertör", body: "Katalitik konvertör, egzoz gazlarındaki zararlı maddeleri (CO, HC, NOx) kimyasal reaksiyonlarla daha az zararlı hale dönüştürür.", category: "Egzoz" },
+            { id: 12, title: "Radyatör", body: "Radyatör, motor soğutma suyunun hava ile temas ederek soğumasını sağlar. Motorun aşırı ısınmasını önler.", category: "Motor" },
+            { id: 13, title: "Termostat", body: "Termostat, motor soğutma suyunun sıcaklığına göre radyatöre giden suyu açar/kapar. Motorun ideal çalışma sıcaklığında kalmasını sağlar.", category: "Motor" },
+            { id: 14, title: "Turbo Lag", body: "Turbo gecikmesi (turbo lag), gaz pedalına basıldığında turbo devreye girene kadar geçen kısa süredir. Modern twin-scroll turbo teknolojisi bu süreyi azaltır.", category: "Turbo" }
+        ];
+
+        let duzenlenenId = null;
+        let aktifKategori = "tümü";
+        let aramaKelimesi = "";
+
+        const postsContainer = document.getElementById('postsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const titleInput = document.getElementById('titleInput');
+        const bodyInput = document.getElementById('bodyInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const saveBtn = document.getElementById('saveBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const formTitle = document.getElementById('formTitle');
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const totalCountSpan = document.getElementById('totalCount');
+        const shownCountSpan = document.getElementById('shownCount');
+
+        // Toast mesajı
+        function toast(msg, hata = false) {
+            const toastEl = document.createElement('div');
+            toastEl.className = 'toast';
+            toastEl.style.background = hata ? '#f5576c' : '#4facfe';
+            toastEl.textContent = msg;
+            document.body.appendChild(toastEl);
+            setTimeout(() => toastEl.remove(), 2500);
+        }
+
+        // Verileri kaydet (LocalStorage)
+        function verileriKaydet() {
+            localStorage.setItem('otomotikVeriler', JSON.stringify(tumVeriler));
+        }
+
+        // Verileri yükle
+        function verileriYukle() {
+            const kayitli = localStorage.getItem('otomotikVeriler');
+            if (kayitli) {
+                tumVeriler = JSON.parse(kayitli);
+            } else {
+                verileriKaydet();
+            }
+            listeyiGoster();
+            toast('✅ Veriler yüklendi!');
+        }
+
+        // Listeyi göster
+        function listeyiGoster() {
+            let filtrelenen = tumVeriler.filter(veri => {
+                const kategoriEslesir = aktifKategori === "tümü" || veri.category === aktifKategori;
+                const aramaEslesir = aramaKelimesi === "" || 
+                    veri.title.toLowerCase().includes(aramaKelimesi.toLowerCase()) ||
+                    veri.body.toLowerCase().includes(aramaKelimesi.toLowerCase());
+                return kategoriEslesir && aramaEslesir;
+            });
+            
+            totalCountSpan.textContent = tumVeriler.length;
+            shownCountSpan.textContent = filtrelenen.length;
+            
+            if (filtrelenen.length === 0) {
+                postsContainer.innerHTML = '<div class="loading">🔍 Parça bulunamadı. Yeni parça ekleyin!</div>';
+                return;
+            }
+            
+            postsContainer.innerHTML = filtrelenen.map(veri => `
+                <div class="post-card">
+                    <span class="post-category">${veri.category}</span>
+                    <div class="post-title">🔧 ${veri.title}</div>
+                    <div class="post-body">${veri.body.substring(0, 150)}${veri.body.length > 150 ? '...' : ''}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="duzenle(${veri.id})">✏️ Düzenle</button>
+                        <button class="btn btn-danger" onclick="sil(${veri.id})">🗑️ Sil</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ekle
+        function ekle() {
+            const baslik = titleInput.value.trim();
+            const icerik = bodyInput.value.trim();
+            const kategori = categorySelect.value;
+            
+            if (!baslik || !icerik) {
+                toast('Lütfen parça adı ve açıklama girin!', true);
+                return;
+            }
+            
+            const yeniVeri = {
+                id: Date.now(),
+                title: baslik,
+                body: icerik,
+                category: kategori
+            };
+            
+            tumVeriler.unshift(yeniVeri);
+            verileriKaydet();
+            listeyiGoster();
+            formuTemizle();
+            toast(`➕ "${baslik}" eklendi!`);
+        }
+
+        // Güncelle
+        function guncelle() {
+            const baslik = titleInput.value.trim();
+            const icerik = bodyInput.value.trim();
+            const kategori = categorySelect.value;
+            
+            if (!baslik || !icerik) {
+                toast('Lütfen parça adı ve açıklama girin!', true);
+                return;
+            }
+            
+            const index = tumVeriler.findIndex(v => v.id === duzenlenenId);
+            if (index !== -1) {
+                tumVeriler[index] = { ...tumVeriler[index], title: baslik, body: icerik, category: kategori };
+                verileriKaydet();
+                listeyiGoster();
+                formuTemizle();
+                toast(`✏️ "${baslik}" güncellendi!`);
+            }
+        }
+
+        // Sil
+        window.sil = function(id) {
+            if (confirm('Bu parçayı silmek istediğinize emin misiniz?')) {
+                const silinen = tumVeriler.find(v => v.id === id);
+                tumVeriler = tumVeriler.filter(v => v.id !== id);
+                verileriKaydet();
+                listeyiGoster();
+                if (duzenlenenId === id) formuTemizle();
+                toast(`🗑️ "${silinen.title}" silindi!`);
+            }
+        }
+
+        // Düzenleme
+        window.duzenle = function(id) {
+            const veri = tumVeriler.find(v => v.id === id);
+            if (veri) {
+                duzenlenenId = id;
+                titleInput.value = veri.title;
+                bodyInput.value = veri.body;
+                categorySelect.value = veri.category;
+                formTitle.innerHTML = '✏️ Parçayı Düzenle';
+                saveBtn.innerHTML = '🔄 Güncelle';
+                cancelBtn.style.display = 'inline-block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Formu temizle
+        function formuTemizle() {
+            duzenlenenId = null;
+            titleInput.value = '';
+            bodyInput.value = '';
+            categorySelect.value = 'Motor';
+            formTitle.innerHTML = '➕ Yeni Parça Ekle';
+            saveBtn.innerHTML = '💾 Kaydet';
+            cancelBtn.style.display = 'none';
+        }
+
+        // Kaydet/Güncelle
+        function kaydetVeyaGuncelle() {
+            if (duzenlenenId) {
+                guncelle();
+            } else {
+                ekle();
+            }
+        }
+
+        // Dark Mode
+        function darkModeAyarla() {
+            const kayitli = localStorage.getItem('darkMode');
+            if (kayitli === 'true') {
+                document.body.classList.add('dark');
+                darkModeBtn.innerHTML = '☀️ Aydınlık Mod';
+            }
+            darkModeBtn.onclick = () => {
+                document.body.classList.toggle('dark');
+                const karanlik = document.body.classList.contains('dark');
+                localStorage.setItem('darkMode', karanlik);
+                darkModeBtn.innerHTML = karanlik ? '☀️ Aydınlık Mod' : '🌙 Karanlık Mod';
+                toast(karanlik ? '🌙 Karanlık mod' : '☀️ Aydınlık mod');
+            };
+        }
+
+        // Eventler
+        saveBtn.onclick = kaydetVeyaGuncelle;
+        cancelBtn.onclick = formuTemizle;
+        refreshBtn.onclick = () => { listeyiGoster(); toast('🔄 Liste yenilendi!'); };
+        searchInput.oninput = (e) => {
+            aramaKelimesi = e.target.value;
+            listeyiGoster();
+        };
+
+        // Kategori butonları
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                aktifKategori = btn.dataset.category;
+                listeyiGoster();
+            };
+        });
+
+        // Başlat
+        verileriYukle();
+        darkModeAyarla();
+    </script>
+</body>
+</html>
